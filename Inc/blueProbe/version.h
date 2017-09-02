@@ -1,0 +1,1 @@
+#define FIRMWARE_VERSION "v1.6.1-50-g7663794-dirty"
