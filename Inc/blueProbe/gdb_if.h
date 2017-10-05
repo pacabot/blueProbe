@@ -21,10 +21,26 @@
 #ifndef __GDB_IF_H
 #define __GDB_IF_H
 
-int gdb_if_init(void);
+/* Configuration **************************************************************/
+#define DMA_TX_BUF_SIZE     64      /* DMA circular buffer size in bytes */
+#define DMA_RX_BUF_SIZE     512     /* DMA circular buffer size in bytes */
+#define DMA_TIMEOUT_MS      10      /* DMA Timeout duration in msec */
+#define BUFF_OUT_SIZE       (DMA_BUF_SIZE * 16)
+/******************************************************************************/
+
+/* Type definitions ----------------------------------------------------------*/
+typedef struct
+{
+    volatile uint8_t  flag;     /* Timeout event flag */
+    uint16_t timer;             /* Timeout duration in msec */
+    uint16_t prevCNDTR;         /* Holds previous value of DMA_CNDTR */
+} DMA_Event_t;
+
+void gdb_if_init(void);
 unsigned char gdb_if_getchar(void);
 unsigned char gdb_if_getchar_to(int timeout);
 void gdb_if_putchar(unsigned char c, int flush);
+void gdb_if_putstr(const char* str);
 
 #endif
 

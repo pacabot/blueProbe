@@ -9,14 +9,14 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include Src/libnrf24l01/subdir.mk
+-include Src/blueProbe/target/flashstub/subdir.mk
 -include Src/blueProbe/target/subdir.mk
 -include Src/blueProbe/platforms/stm32/subdir.mk
 -include Src/blueProbe/platforms/native/subdir.mk
 -include Src/blueProbe/platforms/common/subdir.mk
 -include Src/blueProbe/subdir.mk
 -include Src/subdir.mk
--include Drivers/STM32F1xx_LL_Driver/Src/subdir.mk
--include Drivers/STM32F1xx_HAL_Driver/Src/subdir.mk
+-include Drivers/STM32L4xx_HAL_Driver/Src/subdir.mk
 -include subdir.mk
 -include objects.mk
 
@@ -52,7 +52,7 @@ all: blueProbe.elf secondary-outputs
 blueProbe.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross ARM C Linker'
-	arm-none-eabi-gcc -mcpu=cortex-m3 -mthumb -mlittle-endian -O3 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wall -Wno-unused  -g3 -T "/mnt/Data/Documents/workspace/blueProbe/STM32F103RBTx_FLASH.ld" -Xlinker --gc-sections -Wl,-Map,"blueProbe.map" -o "blueProbe.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mlittle-endian -mfloat-abi=hard -mfpu=fpv4-sp-d16 -O3 -fmessage-length=0 -fsigned-char -ffunction-sections -fdata-sections -Wall -Wno-unused  -g -T "/mnt/Data/Documents/workspace/blueProbe/STM32L432KCUx_FLASH.ld" -Xlinker --gc-sections -Wl,-Map,"blueProbe.map" -o "blueProbe.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

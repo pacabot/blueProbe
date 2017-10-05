@@ -42,8 +42,8 @@ static void swdptap_turnaround(uint8_t dir)
 
     if(dir)
         SWDIO_MODE_FLOAT();
-    LL_GPIO_SetOutputPin(SWCLK_GPIO_Port, SWCLK_Pin_LL);
-    LL_GPIO_ResetOutputPin(SWCLK_GPIO_Port, SWCLK_Pin_LL);
+    LL_GPIO_SetOutputPin(SWCLK_TCK_GPIO_Port, SWCLK_TCK_Pin);
+    LL_GPIO_ResetOutputPin(SWCLK_TCK_GPIO_Port, SWCLK_TCK_Pin);
     if(!dir)
         SWDIO_MODE_DRIVE();
 }
@@ -54,9 +54,9 @@ bool swdptap_bit_in(void)
 
     swdptap_turnaround(1);
 
-    ret = LL_GPIO_IsInputPinSet(SWDIO_GPIO_Port, SWDIO_Pin_LL);
-    LL_GPIO_SetOutputPin(SWCLK_GPIO_Port, SWCLK_Pin_LL);
-    LL_GPIO_ResetOutputPin(SWCLK_GPIO_Port, SWCLK_Pin_LL);
+    ret = LL_GPIO_IsInputPinSet(SWDIO_TMS_GPIO_Port, SWDIO_TMS_Pin);
+    LL_GPIO_SetOutputPin(SWCLK_TCK_GPIO_Port, SWCLK_TCK_Pin);
+    LL_GPIO_ResetOutputPin(SWCLK_TCK_GPIO_Port, SWCLK_TCK_Pin);
 
 #ifdef DEBUG_SWD_BITS
     DEBUG("%d", ret?1:0);
@@ -74,10 +74,10 @@ void swdptap_bit_out(bool val)
     swdptap_turnaround(0);
 
     if (val > 0)
-        LL_GPIO_SetOutputPin(SWDIO_GPIO_Port, SWDIO_Pin_LL);
+        LL_GPIO_SetOutputPin(SWDIO_TMS_GPIO_Port, SWDIO_TMS_Pin);
     else
-        LL_GPIO_ResetOutputPin(SWDIO_GPIO_Port, SWDIO_Pin_LL);
+        LL_GPIO_ResetOutputPin(SWDIO_TMS_GPIO_Port, SWDIO_TMS_Pin);
 
-    LL_GPIO_SetOutputPin(SWCLK_GPIO_Port, SWCLK_Pin_LL);
-    LL_GPIO_ResetOutputPin(SWCLK_GPIO_Port, SWCLK_Pin_LL);
+    LL_GPIO_SetOutputPin(SWCLK_TCK_GPIO_Port, SWCLK_TCK_Pin);
+    LL_GPIO_ResetOutputPin(SWCLK_TCK_GPIO_Port, SWCLK_TCK_Pin);
 }

@@ -17,22 +17,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-//#include "libopencm3/stm32/flash.h"
+
 #include "stub.h"
+#include <stdint.h>
+
+#define MMIO32(addr)                (*(volatile uint32_t *)(addr))
+#define PERIPH_BASE                 (0x40000000U)
+#define PERIPH_BASE_AHB             (PERIPH_BASE + 0x18000)
+#define FLASH_MEM_INTERFACE_BASE    (PERIPH_BASE_AHB + 0x0a000)
+#define FLASH_CR                    MMIO32(FLASH_MEM_INTERFACE_BASE + 0x10)
+#define FLASH_CR_PG                 (1 << 0)
+#define FLASH_SR                    MMIO32(FLASH_MEM_INTERFACE_BASE + 0x0C)
+#define FLASH_SR_BSY                (1 << 0)
 
 #define SR_ERROR_MASK 0x14
 
 void __attribute__((naked))
 stm32f1_flash_write_stub(unsigned int *dest, unsigned int *src, unsigned int size)
 {
-	for (int i; i < size; i += 2) {
-//		FLASH_CR = FLASH_CR_PG;
+	for (int i = 0; i < size; i += 2) {
+		FLASH_CR = FLASH_CR_PG;
 		*dest++ = *src++;
-//		while (FLASH_SR & FLASH_SR_BSY)
+		while (FLASH_SR & FLASH_SR_BSY)
 			;
 	}
 
-//	if (FLASH_SR & SR_ERROR_MASK)
+	if (FLASH_SR & SR_ERROR_MASK)
 		stub_exit(1);
 
 	stub_exit(0);

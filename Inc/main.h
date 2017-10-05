@@ -40,62 +40,60 @@
 #define __MAIN_H
   /* Includes ------------------------------------------------------------------*/
 
+#include "stm32l4xx_ll_bus.h"
+#include "stm32l4xx_ll_cortex.h"
+#include "stm32l4xx_ll_rcc.h"
+#include "stm32l4xx_ll_system.h"
+#include "stm32l4xx_ll_utils.h"
+#include "stm32l4xx_ll_gpio.h"
+#include "stm32l4xx_ll_exti.h"
+#include "stm32l4xx_ll_pwr.h"
+#include "stm32l4xx_ll_dma.h"
+
 /* USER CODE BEGIN Includes */
-#define SWDIO_Pin_LL        LL_GPIO_PIN_8
-#define SWCLK_Pin_LL        LL_GPIO_PIN_9
-//#define TDI_Pin_LL          LL_GPIO_PIN_10
-//#define TDO_Pin_LL          LL_GPIO_PIN_12
-//#define TMS_Pin_LL          LL_GPIO_PIN_13
-//#define TCK_Pin_LL          LL_GPIO_PIN_14
-//#define SWO_Pin_LL          LL_GPIO_PIN_3
-//#define SRST_Pin_LL         LL_GPIO_PIN_1
-//#define PWR_BR_Pin_LL       LL_GPIO_PIN_1
 
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/
 
-#define SRST_Pin GPIO_PIN_1
-#define SRST_GPIO_Port GPIOA
-#define UART_TX_STLINK_Pin GPIO_PIN_2
+#define TARGET_VOLTAGE_Pin LL_GPIO_PIN_0
+#define TARGET_VOLTAGE_GPIO_Port GPIOA
+#define SWDIO_TMS_Pin LL_GPIO_PIN_1
+#define SWDIO_TMS_GPIO_Port GPIOA
+#define UART_TX_STLINK_Pin LL_GPIO_PIN_2
 #define UART_TX_STLINK_GPIO_Port GPIOA
-#define UART_RX_STLINK_Pin GPIO_PIN_3
-#define UART_RX_STLINK_GPIO_Port GPIOA
-#define LED_0_Pin GPIO_PIN_4
-#define LED_0_GPIO_Port GPIOA
-#define LED_1_Pin GPIO_PIN_5
+#define SWCLK_TCK_Pin LL_GPIO_PIN_3
+#define SWCLK_TCK_GPIO_Port GPIOA
+#define LED_1_Pin LL_GPIO_PIN_4
 #define LED_1_GPIO_Port GPIOA
-#define LED_2_Pin GPIO_PIN_6
+#define LED_0_Pin LL_GPIO_PIN_5
+#define LED_0_GPIO_Port GPIOA
+#define LED_2_Pin LL_GPIO_PIN_6
 #define LED_2_GPIO_Port GPIOA
-#define SRST_SENSE_Pin GPIO_PIN_7
-#define SRST_SENSE_GPIO_Port GPIOA
-#define TPWR_Pin GPIO_PIN_0
-#define TPWR_GPIO_Port GPIOB
-#define PWR_BR_Pin GPIO_PIN_1
-#define PWR_BR_GPIO_Port GPIOB
-#define UART_TX_BT_Pin GPIO_PIN_10
-#define UART_TX_BT_GPIO_Port GPIOB
-#define UART_RX_BT_Pin GPIO_PIN_11
-#define UART_RX_BT_GPIO_Port GPIOB
-#define USB_VBUS_Pin GPIO_PIN_13
-#define USB_VBUS_GPIO_Port GPIOB
-#define USB_VBUS_EXTI_IRQn EXTI15_10_IRQn
-#define USB_PU_Pin GPIO_PIN_8
-#define USB_PU_GPIO_Port GPIOC
-#define SWDIO_Pin GPIO_PIN_8
-#define SWDIO_GPIO_Port GPIOA
-#define SWCLK_Pin GPIO_PIN_9
-#define SWCLK_GPIO_Port GPIOA
-#define TDI_Pin GPIO_PIN_10
-#define TDI_GPIO_Port GPIOA
-#define TDO_Pin GPIO_PIN_12
-#define TDO_GPIO_Port GPIOA
-#define TMS_Pin GPIO_PIN_13
-#define TMS_GPIO_Port GPIOA
-#define TCK_Pin GPIO_PIN_14
-#define TCK_GPIO_Port GPIOA
-#define SWO_Pin GPIO_PIN_3
+#define GPIO7_BT_Pin LL_GPIO_PIN_7
+#define GPIO7_BT_GPIO_Port GPIOA
+#define BT_PWR_Pin LL_GPIO_PIN_0
+#define BT_PWR_GPIO_Port GPIOB
+#define SWO_Pin LL_GPIO_PIN_1
 #define SWO_GPIO_Port GPIOB
+#define UART_TX_BT_Pin LL_GPIO_PIN_9
+#define UART_TX_BT_GPIO_Port GPIOA
+#define UART_RX_BT_Pin LL_GPIO_PIN_10
+#define UART_RX_BT_GPIO_Port GPIOA
+#define UART_CTS_BT_Pin LL_GPIO_PIN_11
+#define UART_CTS_BT_GPIO_Port GPIOA
+#define UART_RTS_BT_Pin LL_GPIO_PIN_12
+#define UART_RTS_BT_GPIO_Port GPIOA
+#define UART_RX_STLINK_Pin LL_GPIO_PIN_15
+#define UART_RX_STLINK_GPIO_Port GPIOA
+#define SRST_Pin LL_GPIO_PIN_4
+#define SRST_GPIO_Port GPIOB
+#define TARGET_PWR_Pin LL_GPIO_PIN_5
+#define TARGET_PWR_GPIO_Port GPIOB
+#define TDO_Pin LL_GPIO_PIN_6
+#define TDO_GPIO_Port GPIOB
+#define TDI_Pin LL_GPIO_PIN_7
+#define TDI_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

@@ -29,7 +29,7 @@
 #include "target_internal.h"
 #include "cortexm.h"
 
-#define SRAM_BASE            0x20000000
+//#define SRAM_BASE            0x20000000
 #define STUB_BUFFER_BASE     ALIGN(SRAM_BASE + sizeof(lmi_flash_write_stub), 4)
 
 #define BLOCK_SIZE           0x400

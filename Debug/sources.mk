@@ -19,14 +19,14 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-Drivers/STM32F1xx_HAL_Driver/Src \
-Drivers/STM32F1xx_LL_Driver/Src \
+Drivers/STM32L4xx_HAL_Driver/Src \
 Src \
 Src/blueProbe \
 Src/blueProbe/platforms/common \
 Src/blueProbe/platforms/native \
 Src/blueProbe/platforms/stm32 \
 Src/blueProbe/target \
+Src/blueProbe/target/flashstub \
 Src/libnrf24l01 \
 . \
 

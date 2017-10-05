@@ -41,7 +41,7 @@
 #include "target_internal.h"
 #include "cortexm.h"
 
-#define SRAM_BASE		0x20000000
+//#define SRAM_BASE		0x20000000
 #define STUB_BUFFER_BASE	ALIGN(SRAM_BASE + sizeof(efm32_flash_write_stub), 4)
 
 static int efm32_flash_erase(struct target_flash *t, target_addr addr, size_t len);

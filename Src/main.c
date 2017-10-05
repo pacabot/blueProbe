@@ -37,23 +37,20 @@
   */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "stm32f1xx_hal.h"
+#include "stm32l4xx_hal.h"
 #include "adc.h"
 #include "crc.h"
+#include "dma.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
 #include "general.h"
-#include "gdb_if.h"
 #include "gdb_main.h"
 #include "target.h"
 #include "exception.h"
 #include "gdb_packet.h"
 #include "morse.h"
-#include "platform.h"
-
-#include "stm32f1xx_ll_gpio.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -100,38 +97,37 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USART3_UART_Init();
+  MX_DMA_Init();
   MX_USART2_UART_Init();
+  MX_USART1_UART_Init();
   MX_CRC_Init();
   MX_ADC1_Init();
 
   /* USER CODE BEGIN 2 */
-    platform_init();
+  platform_init();
 
-    while (true) {
-        volatile struct exception e;
-        TRY_CATCH(e, EXCEPTION_ALL) {
-            gdb_main();
-        }
-        if (e.type) {
-            gdb_putpacketz("EFF");
-            target_list_free();
-            morse("TARGET LOST.", 1);
-        }
-    }
-    /* Should never get here */
-    return 0;
+  while (true) {
+      volatile struct exception e;
+      TRY_CATCH(e, EXCEPTION_ALL) {
+          gdb_main();
+      }
+      if (e.type) {
+          gdb_putpacketz("EFF");
+          target_list_free();
+          morse("TARGET LOST.", 1);
+      }
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-    while (1)
-    {
+  while (1)
+  {
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
 
-    }
+  }
   /* USER CODE END 3 */
 
 }
@@ -147,12 +143,16 @@ void SystemClock_Config(void)
 
     /**Initializes the CPU, AHB and APB busses clocks 
     */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue = 16;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+  RCC_OscInitStruct.MSICalibrationValue = 0;
+  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI_DIV2;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL16;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
+  RCC_OscInitStruct.PLL.PLLN = 40;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
+  RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
+  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
@@ -164,17 +164,27 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
-  PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV6;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2
+                              |RCC_PERIPHCLK_ADC;
+  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+  PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
+  PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_SYSCLK;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+    /**Configure the main internal regulator output voltage 
+    */
+  if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE1) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -203,12 +213,10 @@ void SystemClock_Config(void)
 void _Error_Handler(char * file, int line)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-    /* User can add his own implementation to report the HAL error return state */
-    while(1)
-    {
-        printf("error in file %s at line %d\n", file, line);
-        HAL_Delay(4000);
-    }
+  /* User can add his own implementation to report the HAL error return state */
+  while(1) 
+  {
+  }
   /* USER CODE END Error_Handler_Debug */ 
 }
 
@@ -224,7 +232,7 @@ void _Error_Handler(char * file, int line)
 void assert_failed(uint8_t* file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-    /* User can add his own implementation to report the file name and line number,
+  /* User can add his own implementation to report the file name and line number,
     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 

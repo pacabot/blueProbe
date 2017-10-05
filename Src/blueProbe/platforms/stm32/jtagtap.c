@@ -28,7 +28,7 @@
 
 int jtagtap_init(void)
 {
-//	TMS_SET_MODE();
+    TMS_SET_MODE();
 
 	/* Go to JTAG mode for SWJ-DP */
 	for(int i = 0; i <= 50; i++) jtagtap_next(1, 0); /* Reset SW-DP */
@@ -55,13 +55,19 @@ inline uint8_t jtagtap_next(uint8_t dTMS, uint8_t dTDI)
 {
 	uint16_t ret;
 
-//	gpio_set_val(TMS_PORT, TMS_PIN, dTMS);
-//	gpio_set_val(TDI_PORT, TDI_PIN, dTDI);
-//	gpio_set(TCK_PORT, TCK_PIN);
-//	ret = gpio_get(TDO_PORT, TDO_PIN);
-//	gpio_clear(TCK_PORT, TCK_PIN);
+	if (dTMS == 0)
+	    LL_GPIO_ResetOutputPin(SWDIO_TMS_GPIO_Port, SWDIO_TMS_Pin);
+	else
+	    LL_GPIO_SetOutputPin(SWDIO_TMS_GPIO_Port, SWDIO_TMS_Pin);
+    if (dTDI == 0)
+        LL_GPIO_ResetOutputPin(TDI_GPIO_Port, TDI_Pin);
+    else
+        LL_GPIO_SetOutputPin(TDI_GPIO_Port, TDI_Pin);
+    LL_GPIO_SetOutputPin(SWCLK_TCK_GPIO_Port, SWCLK_TCK_Pin);
+    ret = LL_GPIO_IsInputPinSet(TDO_GPIO_Port, TDO_Pin);
+    LL_GPIO_ResetOutputPin(SWCLK_TCK_GPIO_Port, SWCLK_TCK_Pin);
 
-	//DEBUG("jtagtap_next(TMS = %d, TDI = %d) = %d\n", dTMS, dTDI, ret);
+	DEBUG("jtagtap_next(TMS = %d, TDI = %d) = %d\n", dTMS, dTDI, ret);
 
 	return ret != 0;
 }

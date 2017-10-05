@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "stm32f1xx_hal.h"
+#include "stm32l4xx_hal.h"
 
 #include "general.h"
 #include "morse.h"
@@ -34,7 +34,7 @@ void platform_delay(uint32_t ms)
 void HAL_SYSTICK_Callback(void)
 {
 	if(running_status)
-		HAL_GPIO_TogglePin(LED_IDLE_RUN_PORT, LED_IDLE_RUN);
+		LL_GPIO_TogglePin(LED_IDLE_RUN_PORT, LED_IDLE_RUN);
 
 	time_ms += 100;
 

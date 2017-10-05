@@ -17,8 +17,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-//#include "libopencm3/stm32/flash.h"
+
 #include "stub.h"
+#include <stdint.h>
+
+#define FPEC_BASE                   0x40023C00
+#define MMIO32(addr)                (*(volatile uint32_t *)(addr))
+#define PERIPH_BASE                 (0x40000000U)
+#define PERIPH_BASE_AHB1            (PERIPH_BASE + 0x20000)
+#define FLASH_MEM_INTERFACE_BASE    (PERIPH_BASE_AHB1 + 0x3C00)
+#define FLASH_CR                    MMIO32(FLASH_MEM_INTERFACE_BASE + 0x10)
+#define FLASH_CR_PG                 (1 << 0)
+#define FLASH_CR_PROGRAM_X32        (0x02 << 8)
+#define FLASH_SR                    MMIO32(FLASH_MEM_INTERFACE_BASE + 0x0C)
+//#define FLASH_SR_BSY                (1 << 16)
+#define FLASH_SR_BSY                (1 << 0)
 
 #define SR_ERROR_MASK 0xF2
 
@@ -26,14 +39,14 @@ void __attribute__((naked))
 stm32f4_flash_write_x32_stub(unsigned int *dest, unsigned int *src, unsigned int size)
 {
 	for (int i = 0; i < size; i += 4) {
-//		FLASH_CR = FLASH_CR_PROGRAM_X32 | FLASH_CR_PG;
+		FLASH_CR = FLASH_CR_PROGRAM_X32 | FLASH_CR_PG;
 		*dest++ = *src++;
 		__asm("dsb");
-//		while (FLASH_SR & FLASH_SR_BSY)
+		while (FLASH_SR & FLASH_SR_BSY)
 			;
 	}
 
-//	if (FLASH_SR & SR_ERROR_MASK)
+	if (FLASH_SR & SR_ERROR_MASK)
 		stub_exit(1);
 
 	stub_exit(0);
