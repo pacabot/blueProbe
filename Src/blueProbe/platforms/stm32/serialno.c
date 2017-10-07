@@ -33,7 +33,7 @@ char *serialno_read(char *s)
 	sprintf(s, "%04X%04X%04X",
             uid[1] + uid[5], uid[0] + uid[4], uid[offset]);
 #else
-    volatile uint32_t *unique_id_p = (volatile uint32_t *)0x1FFFF7E8;
+	volatile uint32_t *unique_id_p = (volatile uint32_t *)0x1FFFF7E8;
 	uint32_t unique_id = *unique_id_p +
 			*(unique_id_p + 1) +
 			*(unique_id_p + 2);

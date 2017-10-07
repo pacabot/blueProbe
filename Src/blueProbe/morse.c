@@ -72,7 +72,7 @@ bool morse_update(void)
 		return false;
 
 	if (!bits) {
-		unsigned char c = *morse_ptr++;
+		char c = *morse_ptr++;
 		if (!c) {
 			if(morse_repeat) {
 				morse_ptr = morse_msg;
