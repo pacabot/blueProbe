@@ -51,10 +51,9 @@ Src/blueProbe/target/efm32.o: ../Src/blueProbe/target/efm32.c \
  /mnt/Data/Documents/workspace/blueProbe/Inc/usart.h \
  /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/platform_support.h \
  /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target.h \
- /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/target_internal.h \
- /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/cortexm.h \
- /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/adiv5.h \
- /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/jtag_scan.h \
+ ../Src/blueProbe/target/target_internal.h \
+ ../Src/blueProbe/target/cortexm.h ../Src/blueProbe/target/adiv5.h \
+ ../Src/blueProbe/target/jtag_scan.h \
  ../Src/blueProbe/target/flashstub/efm32.stub
 
 /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/general.h:
@@ -161,12 +160,12 @@ Src/blueProbe/target/efm32.o: ../Src/blueProbe/target/efm32.c \
 
 /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target.h:
 
-/mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/target_internal.h:
+../Src/blueProbe/target/target_internal.h:
 
-/mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/cortexm.h:
+../Src/blueProbe/target/cortexm.h:
 
-/mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/adiv5.h:
+../Src/blueProbe/target/adiv5.h:
 
-/mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/jtag_scan.h:
+../Src/blueProbe/target/jtag_scan.h:
 
 ../Src/blueProbe/target/flashstub/efm32.stub:

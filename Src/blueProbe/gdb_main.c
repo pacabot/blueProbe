@@ -480,6 +480,6 @@ handle_z_packet(char *packet, int plen)
 
 void gdb_main(void)
 {
- 	gdb_main_loop(&gdb_controller, false);
+	gdb_main_loop(&gdb_controller, false);
 }
 

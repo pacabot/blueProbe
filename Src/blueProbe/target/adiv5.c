@@ -317,17 +317,17 @@ static void adiv5_component_probe(ADIv5_AP_t *ap, uint32_t addr)
 		for (i = 0; pidr_pn_bits[i].arch != aa_end; i++) {
 			if (pidr_pn_bits[i].part_number == part_number) {
 				DEBUG("0x%"PRIx32": %s - %s %s\n", addr,
-				      "cidc_debug_strings[cid_class]",
-				      "pidr_pn_bits[i].type",
-				      "pidr_pn_bits[i].full");
+				      cidc_debug_strings[cid_class],
+				      pidr_pn_bits[i].type,
+				      pidr_pn_bits[i].full);
 				/* Perform sanity check, if we know what to expect as component ID
 				 * class.
 				 */
 				if ((pidr_pn_bits[i].cidc != cidc_unknown) &&
 				    (cid_class != pidr_pn_bits[i].cidc)) {
 					DEBUG("WARNING: \"%s\" !match expected \"%s\"\n",
-					      "cidc_debug_strings[cid_class]",
-					      "cidc_debug_strings[pidr_pn_bits[i].cidc]");
+					      cidc_debug_strings[cid_class],
+					      cidc_debug_strings[pidr_pn_bits[i].cidc]);
 				}
 				switch (pidr_pn_bits[i].arch) {
 				case aa_cortexm:
@@ -346,7 +346,7 @@ static void adiv5_component_probe(ADIv5_AP_t *ap, uint32_t addr)
 		}
 		if (pidr_pn_bits[i].arch == aa_end) {
 			DEBUG("0x%"PRIx32": %s - Unknown (PIDR = 0x%"PRIx64")\n", addr,
-			      "cidc_debug_strings[cid_class]", pidr);
+			      cidc_debug_strings[cid_class], pidr);
 		}
 	}
 }

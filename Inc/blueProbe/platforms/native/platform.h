@@ -69,15 +69,6 @@
  * Force DFU mode button: PB12
  */
 
-#ifdef ENABLE_DEBUG
-extern bool debug_bmp;
-int usbuart_debug_write(const char *buf, size_t len);
-
-#define DEBUG printf
-#else
-#define DEBUG(...)
-#endif
-
 #define GDB_UART            huart2
 #define DEBUG_UART          huart1
 
@@ -88,17 +79,6 @@ int usbuart_debug_write(const char *buf, size_t len);
 #define LED_ERROR           LED_2_Pin
 #define LED_ERROR_PORT      LED_2_GPIO_Port
 
-#define SET_RUN_STATE(state) { running_status = (state); }
-#define SET_IDLE_STATE(state) do { if (state == 0) \
-        LL_GPIO_ResetOutputPin(LED_IDLE_RUN_PORT, LED_IDLE_RUN); \
-        else \
-        LL_GPIO_SetOutputPin(LED_IDLE_RUN_PORT, LED_IDLE_RUN); \
-} while(0)
-#define SET_ERROR_STATE(state) do { if (state == 0) \
-        LL_GPIO_ResetOutputPin(LED_ERROR_PORT, LED_ERROR); \
-        else \
-        LL_GPIO_SetOutputPin(LED_ERROR_PORT, LED_ERROR); \
-} while(0)
 #define TMS_SET_MODE() do { \
         LL_GPIO_SetPinSpeed(SWDIO_TMS_GPIO_Port, SWDIO_TMS_Pin, LL_GPIO_SPEED_FREQ_VERY_HIGH); \
         LL_GPIO_SetPinOutputType(SWDIO_TMS_GPIO_Port, SWDIO_TMS_Pin, LL_GPIO_OUTPUT_PUSHPULL); \
@@ -113,6 +93,31 @@ int usbuart_debug_write(const char *buf, size_t len);
         LL_GPIO_SetPinOutputType(SWCLK_TCK_GPIO_Port, SWCLK_TCK_Pin, LL_GPIO_OUTPUT_PUSHPULL); \
 } while(0)
 
+#define TRACE_TIM TIM3
+#define TRACE_TIM_CLK_EN() rcc_periph_clock_enable(RCC_TIM3)
+#define TRACE_IRQ   NVIC_TIM3_IRQ
+#define TRACE_ISR   tim3_isr
+
+#ifdef ENABLE_DEBUG
+extern bool debug_bmp;
+int usbuart_debug_write(const char *buf, size_t len);
+
+#define DEBUG printf
+#else
+#define DEBUG(...)
+#endif
+
+#define SET_RUN_STATE(state) { running_status = (state); }
+#define SET_IDLE_STATE(state) do { if (state == 0) \
+        LL_GPIO_ResetOutputPin(LED_IDLE_RUN_PORT, LED_IDLE_RUN); \
+        else \
+        LL_GPIO_SetOutputPin(LED_IDLE_RUN_PORT, LED_IDLE_RUN); \
+} while(0)
+#define SET_ERROR_STATE(state) do { if (state == 0) \
+        LL_GPIO_ResetOutputPin(LED_ERROR_PORT, LED_ERROR); \
+        else \
+        LL_GPIO_SetOutputPin(LED_ERROR_PORT, LED_ERROR); \
+} while(0)
 
 /* Use newlib provided integer only stdio functions */
 #define sscanf siscanf

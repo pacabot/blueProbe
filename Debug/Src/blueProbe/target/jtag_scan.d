@@ -51,10 +51,9 @@ Src/blueProbe/target/jtag_scan.o: ../Src/blueProbe/target/jtag_scan.c \
  /mnt/Data/Documents/workspace/blueProbe/Inc/usart.h \
  /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/platform_support.h \
  /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/jtagtap.h \
- /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/jtag_scan.h \
+ ../Src/blueProbe/target/jtag_scan.h \
  /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target.h \
- /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/adiv5.h \
- /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/jtag_scan.h
+ ../Src/blueProbe/target/adiv5.h
 
 /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/general.h:
 
@@ -160,10 +159,8 @@ Src/blueProbe/target/jtag_scan.o: ../Src/blueProbe/target/jtag_scan.c \
 
 /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/jtagtap.h:
 
-/mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/jtag_scan.h:
+../Src/blueProbe/target/jtag_scan.h:
 
 /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target.h:
 
-/mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/adiv5.h:
-
-/mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/jtag_scan.h:
+../Src/blueProbe/target/adiv5.h:

@@ -51,7 +51,7 @@ Src/blueProbe/target/target.o: ../Src/blueProbe/target/target.c \
  /mnt/Data/Documents/workspace/blueProbe/Inc/usart.h \
  /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/platform_support.h \
  /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target.h \
- /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/target_internal.h
+ ../Src/blueProbe/target/target_internal.h
 
 /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/general.h:
 
@@ -157,4 +157,4 @@ Src/blueProbe/target/target.o: ../Src/blueProbe/target/target.c \
 
 /mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target.h:
 
-/mnt/Data/Documents/workspace/blueProbe/Inc/blueProbe/target/target_internal.h:
+../Src/blueProbe/target/target_internal.h:
