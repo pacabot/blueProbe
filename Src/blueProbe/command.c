@@ -280,7 +280,7 @@ static bool cmd_target_power(target *t, int argc, const char **argv)
 static bool cmd_traceswo(void)
 {
 	/*extern*/ char serial_no[9];
-	traceswo_init();
+//	traceswo_init(); //todo remove comment for activate SWO
 	gdb_outf("%s:%02X:%02X\n", serial_no, 5, 0x85);
 	return true;
 }
